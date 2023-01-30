@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;       // UIを使用する
 
@@ -101,7 +102,7 @@ public class GameManager : MonoBehaviour
                     // 整数に代入することで少数を切り捨てる
                     int _time = (int)timeCnt._displayTime;
                     // タイム更新
-                    timeText.GetComponent<Text>().text = _time.ToString();
+                    timeText.GetComponent<TextMeshProUGUI>().text = _time.ToString();
                     // タイムオーバー
                     if(_time == 0)
                     {
