@@ -35,6 +35,9 @@ public class PlayerController : MonoBehaviour
     /// <summary> ゲームの状態 </summary>
     public static string _gameState = "playing";
 
+    /// <summary> スコア </summary>
+    public int _score = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -154,6 +157,17 @@ public class PlayerController : MonoBehaviour
         {
             // ゲームオーバーメソッドを呼ぶ
             GameOver();
+        }
+        else if (collision.gameObject.tag == "ScoreItem")
+        {
+            // スコアタイム
+            // ItemDataを受け取る
+            ItemData item = collision.gameObject.GetComponent<ItemData>();
+            // スコアを獲得する
+            _score = item._value;
+
+            // アイテム除去する
+            Destroy(collision.gameObject);
         }
     }
 

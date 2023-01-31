@@ -30,6 +30,14 @@ public class GameManager : MonoBehaviour
     /// <summary> タイムコントローラー </summary>
     TimeController timeCnt;
 
+    // +++スコアの追加+++
+    /// <summary> スコアテキスト </summary>
+    public GameObject scoreText;
+    /// <summary> 合計スコア </summary>
+    public static int _totalScore;
+    /// <summary> ステージスコア </summary>
+    public int _stageScore = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -49,6 +57,8 @@ public class GameManager : MonoBehaviour
                 timeBar.SetActive(false);
             }
         }
+        // +++スコアupdata関数の追加+++
+        UpdateScore();
     }
 
     // Update is called once per frame
@@ -69,7 +79,18 @@ public class GameManager : MonoBehaviour
             {
                 // 時間カウント停止
                 timeCnt._isTimeOver = true;
+                // +++スコア追加+++
+                // 整数に代入することで少数を切り捨てる
+                int time = (int)timeCnt._displayTime;
+                // 残り時間をスコアに加える
+                _totalScore += time * 10;
             }
+
+            // +++ スコア追加 +++
+            _totalScore += _stageScore;
+            _stageScore = 0;
+            // スコアの更新
+            UpdateScore();
         }
         else if (PlayerController._gameState == "gameover")
         {
@@ -111,6 +132,14 @@ public class GameManager : MonoBehaviour
                     }
                 }
             }
+
+            // +++ スコアの追加 +++
+            if(playerCnt._score != 0)
+            {
+                _stageScore += playerCnt._score;
+                playerCnt._score = 0;
+                UpdateScore();
+            }
         }
     }
 
@@ -120,5 +149,14 @@ public class GameManager : MonoBehaviour
     void InactiveImage()
     {
         mainImage.SetActive(false);
+    }
+
+    /// <summary>
+    /// スコアの追加
+    /// </summary>
+    void UpdateScore()
+    {
+        int score = _stageScore + _totalScore;
+        scoreText.GetComponent<TextMeshProUGUI>().text = score.ToString();
     }
 }
